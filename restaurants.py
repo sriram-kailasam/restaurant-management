@@ -4,7 +4,7 @@ class RestaurantService:
 
     def list_restaurants(self):
         q = """
-            SELECT * FROM resturants;
+            SELECT * FROM restaurants
         """
 
         c = self.conn.cursor()
@@ -12,31 +12,38 @@ class RestaurantService:
 
         rows = c.fetchall()
 
+        print("Restaurants")
+        print("---------------")
+
         for row in rows:
-            print(row)
+            print("%d. %s, %s" % (row[0], row[1], row[2]))
 
     def get_restaurant(self, id):
         q = """
-            SELECT * FROM resturants WHERE id = ?;
+            SELECT * FROM restaurants WHERE id = ?
         """
 
         c = self.conn.cursor()
         c.execute(q, (id, ))
 
-        rows = c.fetchone()
-        print(row)
+        row = c.fetchone()
+        if row is None:
+            print("Restaurant not found")
+        else:
+            print("%d. %s, %s" % (row[0], row[1], row[2]))
 
     def create_restaurant(self, restaurant):
         q = """
-            INSERT INTO restaurants VALUES (?, ?, ?);
+            INSERT INTO restaurants VALUES (?, ?, ?)
         """
 
         try:
             c = self.conn.cursor()
             c.execute(q, (restaurant.id, restaurant.name, restaurant.address))
-
+            
+            self.conn.commit()
             print("Restaurant created")
-        except Error as e:
+        except Exception as e:
             print(e)
 
     def get_avg_rating(self, id):
