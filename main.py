@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from restaurants import RestaurantService, Restaurant
+from customers import CustomerService, Customer
 
 conn = sqlite3.connect(os.path.join(os.getcwd(), "restaurant.db"))
 
@@ -38,7 +39,31 @@ while True:
             print("Please select one from the given options.")
 
     elif inp == 2:
-        pass
+        service = CustomerService(conn)
+
+        print("1. See all customers")
+        print("2. Find customer by id")
+        print("3. See all orders of a customer")
+        print("4. Create new customer")
+
+        if opt == 1:
+            service.list_customers()
+        elif opt == 2:
+            id = int(input("Enter customer id: "))
+            service.get_customer(id)
+        elif opt == 3:
+            id = int(input("Enter customer id: "))
+            service.list_orders(id)
+        elif opt == 4:
+            id = int(input("Enter customer id: "))
+            name = raw_input("Enter customer name: ")
+            age = int(input("Enter customer age: "))
+            gender = raw_input("Enter customer's gender: ")
+
+            customer = Customer(id, name, age, gender)
+            service.create_customer(customer)
+        else:
+            print("Please select one from the given options.")
     elif inp == 3:
         pass 
     elif inp == 4:
