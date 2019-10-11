@@ -1,1 +1,4 @@
-restaurant.db
+*.db
+*.db-journal
+*.pyc
+.vscode
