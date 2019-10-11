@@ -7,7 +7,7 @@ def create_restaurants_table(conn):
     cur = conn.cursor()
 
     q = """
-        CREATE TABLE restaurants (
+        CREATE TABLE IF NOT EXISTS restaurants (
             id integer PRIMARY KEY,
             name text,
             address text
@@ -20,7 +20,7 @@ def create_orders_table(conn):
     cur = conn.cursor()
 
     q = """
-        CREATE TABLE orders (
+        CREATE TABLE IF NOT EXISTS orders (
             id integer PRIMARY KEY,
             item_id integer,
             customer_id integer,
@@ -39,8 +39,11 @@ def create_customers_table(conn):
     cur = conn.cursor()
 
     q = """
-        CREATE TABLE customers (
-            id integer PRIMARY KEY
+        CREATE TABLE IF NOT EXISTS customers (
+            id integer PRIMARY KEY,
+            name text,
+            age integer,
+            gender text
         );
     """
 
@@ -50,7 +53,7 @@ def create_items_table(conn):
     cur = conn.cursor()
 
     q = """
-        CREATE TABLE items (
+        CREATE TABLE IF NOT EXISTS items (
             id integer PRIMARY KEY,
             restaurant_id integer,
             customer_id integer,
@@ -68,7 +71,7 @@ def create_reviews_table(conn):
     cur = conn.cursor()
 
     q = """
-        CREATE TABLE items (
+        CREATE TABLE IF NOT EXISTS reviews  (
             id integer PRIMARY KEY,
             restaurant_id integer,
             customer_id integer,
