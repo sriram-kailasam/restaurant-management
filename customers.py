@@ -1,3 +1,5 @@
+from reviews import Review
+
 class CustomerService:
     def __init__(self, conn):
         self.conn = conn
@@ -101,10 +103,3 @@ class Customer:
         self.age = age
         self.gender = gender
 
-class Review:
-    def __init__(self, id, customer_id, restaurant_id, text, rating):
-        self.id = id
-        self.customer_id = customer_id
-        self.restaurant_id = restaurant_id
-        self.text = text
-        self.rating = rating

@@ -2,6 +2,7 @@ import sqlite3
 import os
 from restaurants import RestaurantService, Restaurant
 from customers import CustomerService, Customer
+from reviews import Review, ReviewService
 
 conn = sqlite3.connect(os.path.join(os.getcwd(), "restaurant.db"))
 
@@ -74,7 +75,25 @@ while True:
         else:
             print("Please select one from the given options.")
     elif inp == 3:
-        pass 
+        service = ReviewService(conn)
+
+        print("1. See all reviews")
+        print("2. Add review")
+
+        opt = int(input())
+        if opt == 1:
+            service.list_reviews()
+        elif opt == 2:
+            id = int(input("Enter review id: "))
+            customer_id = int(input("Enter customer id: "))
+            restaurant_id = int(input("Enter restaurant id: "))
+            text = input("Enter review: ")
+            rating = float(input("Enter rating (1-5)"))
+
+            review = Review(id, customer_id, restaurant_id, text, rating)
+            service.add_review(review)
+        else:
+            print("Please select one from the given options.")
     elif inp == 4:
         exit()
     else:
