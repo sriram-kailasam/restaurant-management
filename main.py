@@ -20,6 +20,7 @@ while True:
         print("1. See all restaurants")
         print("2. Find restaurant by id")
         print("3. Create new restaurant")
+        print("4. See the menu")
 
         opt = int(input())
 
@@ -35,6 +36,9 @@ while True:
 
             restaurant = Restaurant(id, name, address)
             service.create_restaurant(restaurant)
+        elif opt == 4:
+            id = int(input("Enter restaurant id: "))
+            service.list_items(id)
         else:
             print("Please select one from the given options.")
 
@@ -45,7 +49,9 @@ while True:
         print("2. Find customer by id")
         print("3. See all orders of a customer")
         print("4. Create new customer")
+        print("5. See all reviews of customer")
 
+        opt = int(input())
         if opt == 1:
             service.list_customers()
         elif opt == 2:
@@ -62,6 +68,9 @@ while True:
 
             customer = Customer(id, name, age, gender)
             service.create_customer(customer)
+        elif opt == 5:
+            id = int(input("Enter customer id: "))
+            service.list_reviews(id)
         else:
             print("Please select one from the given options.")
     elif inp == 3:

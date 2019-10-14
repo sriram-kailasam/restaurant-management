@@ -50,15 +50,21 @@ class CustomerService:
 
     def list_reviews(self, id):
         q = """
-            SELECT * FROM reviews WHERE customer_id = ?
+            SELECT restaurants.name, reviews.review, reviews.rating
+            FROM reviews
+            INNER JOIN restaurants 
+            ON reviews.restaurant_id = restaurants.id
+            AND reviews.customer_id = ?
         """
 
         c = self.conn.cursor()
         c.execute(q, (id, ))
 
         rows = c.fetchall()
-        for (row in rows):
-            print(row)
+        print("Restaurant\tReview\tRating")
+        print("-----------------------------")
+        for row in rows:
+            print("%s\t%s\t%0.1f" % (row[0], row[1], row[2]))
 
     def create_customer(self, customer):
         q = """
@@ -79,7 +85,7 @@ class CustomerService:
             INSERT INTO reviews VALUES (?, ?, ?, ?, ?)
         """
 
-         try:
+        try:
             c = self.conn.cursor()
             c.execute(q, (review.id, review.restaurant_id, review.customer_id, review.text, review.rating))
             
