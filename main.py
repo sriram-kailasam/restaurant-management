@@ -22,6 +22,8 @@ while True:
         print("2. Find restaurant by id")
         print("3. Create new restaurant")
         print("4. See the menu")
+        print("5. See Average rating")
+        # print("6. See total revenue")
 
         opt = int(input())
 
@@ -40,6 +42,13 @@ while True:
         elif opt == 4:
             id = int(input("Enter restaurant id: "))
             service.list_items(id)
+        elif opt == 5:
+            id = int(input("Enter restaurant id: "))
+            service.get_avg_rating(id)
+        # elif opt == 6:
+        #     id = int(input("Enter restaurant id: "))
+        #     service.get_total_revenue(id)
+
         else:
             print("Please select one from the given options.")
 

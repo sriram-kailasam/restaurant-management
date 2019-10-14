@@ -73,11 +73,24 @@ class RestaurantService:
         c.execute(q, (id, ))
 
         row = c.fetchone()
-        print(row)
+        print(row[0])
 
-    def get_total_revenue(self, id):
-        pass
+    def list_orders(self, id):
         
+    # def get_total_revenue(self, id):
+    #     q = """
+    #         SELECT SUM(items.price)
+    #         FROM orders
+    #         INNER JOIN items
+    #         ON orders.item_id = items.id
+    #         AND orders.restaurant_id = ?
+    #         GROUP BY items.price
+    #     """
+    #     c = self.conn.cursor()
+    #     c.execute(q, (id, ))
+
+    #     row = c.fetchone()
+    #     print(row[0])
 
 class Restaurant:
     def __init__(self, id, name, address):

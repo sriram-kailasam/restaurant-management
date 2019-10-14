@@ -162,6 +162,27 @@ def populate_items_table(conn):
     cur.executemany(q, items)
     conn.commit()
 
+def populate_orders_table(conn):
+    cur = conn.cursor()
+
+    q = """
+        INSERT INTO items VALUES (?, ?, ?, ?, ?)
+    """
+
+    orders = [
+        (1, 1, 1, 1, "2019-08-30 18:47"),
+        (2, 2, 2, 2, "2019-08-29 18:47"),
+        (3, 3, 3, 3, "2019-09-30 16:47"),
+        (4, 4, 4, 4, "2019-08-30 18:27"),
+        (5, 5, 5, 5, "2019-06-30 08:47"),
+        (6, 6, 2, 1, "2019-08-21 16:45"),
+        (7, 7, 4, 2, "2019-08-30 18:47"),
+        (8, 8, 1, 3, "2019-10-30 09:36")
+    ]
+
+    cur.executemany(q, orders)
+    conn.commit()
+
 create_items_table(conn)
 create_customers_table(conn)
 create_orders_table(conn)
@@ -172,3 +193,4 @@ populate_customers_table(conn)
 populate_restaurants_table(conn)
 populate_reviews_table(conn)
 populate_items_table(conn)
+populate_orders_table(conn)
