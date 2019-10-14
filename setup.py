@@ -15,6 +15,7 @@ def create_restaurants_table(conn):
     """
 
     cur.execute(q)
+    conn.commit()
 
 def create_orders_table(conn):
     cur = conn.cursor()
@@ -34,6 +35,7 @@ def create_orders_table(conn):
     """
 
     cur.execute(q)
+    conn.commit()
 
 def create_customers_table(conn):
     cur = conn.cursor()
@@ -48,6 +50,7 @@ def create_customers_table(conn):
     """
 
     cur.execute(q)
+    conn.commit()
 
 def create_items_table(conn):
     cur = conn.cursor()
@@ -56,16 +59,15 @@ def create_items_table(conn):
         CREATE TABLE IF NOT EXISTS items (
             id integer PRIMARY KEY,
             restaurant_id integer,
-            customer_id integer,
-            rating numeric CHECK(rating >= 1 AND rating <= 5),
+            name text,
+            price numeric,
 
-            FOREIGN KEY(restaurant_id) REFERENCES restaurants(id),
-            FOREIGN KEY(customer_id) REFERENCES customers(id)
+            FOREIGN KEY(restaurant_id) REFERENCES restaurants(id)
         );
     """
 
-
     cur.execute(q)
+    conn.commit()
 
 def create_reviews_table(conn):
     cur = conn.cursor()
@@ -76,16 +78,97 @@ def create_reviews_table(conn):
             restaurant_id integer,
             customer_id integer,
             review text,
-            rating numeric,
+            rating numeric CHECK(rating >= 1 AND rating <= 5),
 
             FOREIGN KEY(restaurant_id) REFERENCES restaurants(id),
             FOREIGN KEY(customer_id) REFERENCES customers(id)
         );
     """
     cur.execute(q)
+    conn.commit()
+    
+
+def populate_restaurants_table(conn):
+    cur = conn.cursor()
+
+    q = """
+        INSERT INTO restaurants VALUES (?, ?, ?)
+    """
+    restaurants = [
+        (1, "Green Palace", "Main Street, Gandhidham"),
+        (2, "Purohit Garden Restaurant", "Side Street, Gandhidham"),
+        (3, "Neo Politon Pizza", "Gandhi Circle, Ahmedabad"),
+        (4, "Satyam Foods", "Rotary Circle, Anjar"),
+        (5, "Agra Food Center",  "Main Highway, Agra")
+    ]
+
+    cur.executemany(q, restaurants)
+    conn.commit()
+
+def populate_customers_table(conn):
+    cur = conn.cursor()
+
+    q = """
+        INSERT INTO customers VALUES (?, ?, ?, ?)
+    """
+    customers = [
+        (1, "John Doe", 25, "Male"),
+        (2, "Jane Doe", 22, "Female"),
+        (3, "David Smith", 33, "Male"),
+        (4, "Elizabeth", 45, "Female"),
+        (5, "Rakesh Singh", 19, "Male")
+    ]
+
+    cur.executemany(q, customers)
+    conn.commit()
+
+def populate_reviews_table(conn):
+    cur = conn.cursor()
+
+    q = """
+        INSERT INTO reviews VALUES (?, ?, ?, ?, ?)
+    """
+
+    reviews = [
+        (1, 1, 1, "Amazing food at a low price.", 5),
+        (2, 1, 2, "Decent food.", 4),
+        (3, 2, 3, "Good food but took a lot of time.", 3.5),
+        (4, 3, 1, "Very costly.", 3.5),
+        (5, 3, 2, "Okayish food.", 3.5),
+        (6, 4, 4, "Snacks were great.", 4),
+        (7, 5, 5, "Incredible!", 5)
+    ]
+
+    cur.executemany(q, reviews)
+    conn.commit()
+
+def populate_items_table(conn):
+    cur = conn.cursor()
+
+    q = """
+        INSERT INTO items VALUES (?, ?, ?, ?)
+    """
+    items = [
+        (1, 1, "Veg Maharaja", 200),
+        (2, 2, "Veg Pulao", 150),
+        (3, 3, "Unlimited Meal", 300),
+        (4, 4, "Pav Bhaji", 100),
+        (5, 5, "Veg Burger", 50),
+        (6, 1, "Butter Naan", 40),
+        (7, 2, "Masala Dosa", 100),
+        (8, 3, "Margherita", 150)
+    ]
+
+    cur.executemany(q, items)
+    conn.commit()
 
 create_items_table(conn)
 create_customers_table(conn)
 create_orders_table(conn)
 create_restaurants_table(conn)
 create_reviews_table(conn)
+
+populate_customers_table(conn)
+populate_restaurants_table(conn)
+populate_reviews_table(conn)
+populate_items_table(conn)
